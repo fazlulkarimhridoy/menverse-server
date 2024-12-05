@@ -11,6 +11,7 @@ app.use(
     cors({
         origin: [
             "http://localhost:3001",
+            "https://menverse-client.vercel.app"
         ],
         credentials: true,
         allowedHeaders: ["Content-Type", "Authorization"],

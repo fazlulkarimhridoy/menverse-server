@@ -57,7 +57,7 @@ router.post("/add-product", async (req, res) => {
         // Update productData with the uploaded images
         productData.images = images;
 
-        console.log("Updated product data:", productData);
+        console.log("product data:", productData);
 
         // Create the product with the updated images
         const result = await prisma.product.create({
@@ -81,6 +81,21 @@ router.get("/all-products", async (req, res) => {
             orderBy: {
                 id: "desc",
             },
+        });
+        res.json({ status: "success", data: products });
+    } catch (error) {
+        res.status(400).json({ status: "fail", data: error });
+    }
+});
+
+// Get first 4 products
+router.get("/recent-products", async (req, res) => {
+    try {
+        const products = await prisma.product.findMany({
+            orderBy: {
+                id: "desc",
+            },
+            take: 4,
         });
         res.json({ status: "success", data: products });
     } catch (error) {

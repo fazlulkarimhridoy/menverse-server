@@ -17,7 +17,6 @@ model Customer {
   id         Int      @id @default(autoincrement())
   customerId String   @unique @default(uuid(4))
   name       String
-  email      String
   phone      String
   address    String
   createdAt  DateTime @default(now())
@@ -64,14 +63,11 @@ model Order {
   customer      Customer      @relation(fields: [customerId], references: [id], onUpdate: Cascade)
   customerId    Int
   totalPrice    Int
-  deliveryDate  String
-  deliveryTime  String
   orderStatus   OrderStatus   @default(PENDING)
   orderDate     DateTime?     @default(now())
   paymentMethod PaymentMethod @default(CASHON)
   items         Json
-  note          String
-  transactionId String
+  note          String?
 
   @@map("order")
 }

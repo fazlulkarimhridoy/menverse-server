@@ -10,6 +10,10 @@ const PORT = process.env.PORT || 3000;
 app.use(
     cors({
         origin: [
+            "https://www.menverseshop.com",
+            "menverseshop.com",
+            "https://menverseshop.com",
+            "http://menverseshop.com",
             "http://localhost:3001",
             "https://menverse-client.vercel.app"
         ],

@@ -13,7 +13,7 @@ async function storePhotoDataUrl(imagesList) {
             formData.append("image", imageUrl); // Field name is 'image'
 
             const response = await fetch(
-                "https://backend.floralradiancebd.com/api/store-photo-dataurl",
+                "https://photostore.menverseshop.com/api/store-photo-dataurl",
                 {
                     method: "POST",
                     body: formData,

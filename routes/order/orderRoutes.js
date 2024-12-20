@@ -44,14 +44,12 @@ router.get("/recent-order", async (req, res) => {
             orderBy: {
                 id: "desc",
             },
-            
         });
         res.json({ status: "success", data: result });
     } catch (error) {
         res.status(400).json({ status: "fail", data: error });
     }
 });
-
 
 // GET /api/orders/:id
 router.get("/order-details/:id", async (req, res) => {
@@ -75,11 +73,12 @@ router.get("/order-details/:id", async (req, res) => {
 router.patch("/update-order/:id", async (req, res) => {
     try {
         const orderIdString = req.params.id;
-        const productId = parseInt(orderIdString);
+        const orderId = parseInt(orderIdString);
+        console.log("id", orderId);
         const orderUpdateData = req.body;
         const result = await prisma.order.update({
             where: {
-                id: productId,
+                id: orderId,
             },
             data: orderUpdateData,
         });

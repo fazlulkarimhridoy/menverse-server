@@ -34,10 +34,10 @@ model Product {
   product_name   String    @db.VarChar(255)
   price          Int
   discount_price Int?
-  stock          String?    @default("available")
+  stock          String?   @default("available")
   category       String
   description    String    @db.LongText
-  rating         Int?       @default(0)
+  rating         Int?      @default(0)
   created_at     DateTime? @default(now()) @db.Timestamp(0)
   updated_at     DateTime? @default(now()) @updatedAt @db.Timestamp(0)
   Category       Category? @relation(fields: [categoryId], references: [id])
@@ -60,16 +60,17 @@ model Category {
 
 // order model
 model Order {
-  id            Int           @id @default(autoincrement())
-  customer      Customer      @relation(fields: [customerId], references: [id], onUpdate: Cascade)
-  customerId    Int
-  totalPrice    Int
+  id             Int           @id @default(autoincrement())
+  customer       Customer      @relation(fields: [customerId], references: [id], onUpdate: Cascade)
+  customerId     Int
+  totalPrice     Int
   deliveryCharge Int
-  orderStatus   OrderStatus   @default(PENDING)
-  orderDate     DateTime?     @default(now())
-  paymentMethod PaymentMethod @default(CASHON)
-  items         Json
-  note          String?
+  orderStatus    OrderStatus   @default(PENDING)
+  orderDate      DateTime?     @default(now())
+  paymentMethod  PaymentMethod @default(CASHON)
+  items          Json
+  note           String?
+  courierDetails Json?
 
   @@map("order")
 }

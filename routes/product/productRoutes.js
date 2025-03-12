@@ -12,13 +12,10 @@ async function storePhotoDataUrl(imagesList) {
             // Add the image data to the FormData object
             formData.append("image", imageUrl); // Field name is 'image'
 
-            const response = await fetch(
-                "https://photostore.menverseshop.com/api/store-photo-dataurl",
-                {
-                    method: "POST",
-                    body: formData,
-                }
-            );
+            const response = await fetch("https://photostore.menverseshop.com/api/store-photo-dataurl", {
+                method: "POST",
+                body: formData,
+            });
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -109,9 +106,11 @@ router.patch("/update-product/:id", async (req, res) => {
         const productIdString = req.params.id;
         const productId = parseInt(productIdString);
         const productUpdateData = req.body;
-        const imagesList = req.body.images || []; // Default to empty array if no images
-        const images = await storePhotoDataUrl(imagesList);
-        productUpdateData.images = images;
+        const imagesList = req.body.images;
+        if (imagesList) {
+            const images = await storePhotoDataUrl(imagesList);
+            productUpdateData.images = images;
+        }
 
         const result = await prisma.product.update({
             where: {
@@ -136,9 +135,7 @@ router.get("/details/:id", async (req, res) => {
             },
         });
         if (!product) {
-            return res
-                .status(404)
-                .json({ status: "fail", data: "Product not found" });
+            return res.status(404).json({ status: "fail", data: "Product not found" });
         }
         res.json({ status: "success", data: product });
     } catch (error) {
@@ -161,9 +158,7 @@ router.get("/images-and-name/:itemId", async (req, res) => {
             },
         });
         if (!product) {
-            return res
-                .status(404)
-                .json({ status: "fail", data: "Product not found" });
+            return res.status(404).json({ status: "fail", data: "Product not found" });
         }
         res.json({ status: "success", data: product });
     } catch (error) {

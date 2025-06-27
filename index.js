@@ -9,14 +9,9 @@ const PORT = process.env.PORT || 3000;
 // ------------------------------------middlewares-------------------------------------------
 app.use(
     cors({
-        origin: [
-            "https://www.menverseshop.com",
-            "menverseshop.com",
-            "https://menverseshop.com",
-            "http://menverseshop.com",
-            "http://localhost:3001",
-            "https://menverse-client.vercel.app"
-        ],
+        origin: (origin, callback) => {
+            callback(null, true); // Accept all origins dynamically
+        },
         credentials: true,
         allowedHeaders: ["Content-Type", "Authorization"],
     })
@@ -28,10 +23,7 @@ app.use(bodyParser.json({ limit: "100mb" }));
 // ------------------------------------auth/jwt api-------------------------------------------
 app.post("/login", (req, res) => {
     const user = req.body;
-    if (
-        user.email === process.env.EMAIL &&
-        user.password === process.env.PASSWORD
-    ) {
+    if (user.email === process.env.EMAIL && user.password === process.env.PASSWORD) {
         const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
             expiresIn: "1h",
         });
@@ -40,7 +32,6 @@ app.post("/login", (req, res) => {
         res.json({ status: "fail", message: "Invalid credentials" });
     }
 });
-
 
 // ------------------------------------user routes-------------------------------------------
 app.use("/api", routes);
